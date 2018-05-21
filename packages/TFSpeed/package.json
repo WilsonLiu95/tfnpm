@@ -1,0 +1,24 @@
+{
+  "name": "ispeed",
+  "version": "1.0.0",
+  "description": "前端测速模块",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WilsonLiu95/iSpeed.git"
+  },
+  "keywords": [
+    "speed",
+    "fit",
+    "front_end"
+  ],
+  "author": "wilsonliu@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WilsonLiu95/iSpeed/issues"
+  },
+  "homepage": "https://github.com/WilsonLiu95/iSpeed#readme"
+}
