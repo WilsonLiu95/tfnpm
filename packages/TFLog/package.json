@@ -1,0 +1,24 @@
+{
+  "name": "ilogline",
+  "version": "1.0.0",
+  "description": "前端日志",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WilsonLiu95/iLogline.git"
+  },
+  "keywords": [
+    "indexeddb",
+    "log",
+    "front_end"
+  ],
+  "author": "wilsonliuxyz@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WilsonLiu95/iLogline/issues"
+  },
+  "homepage": "https://github.com/WilsonLiu95/iLogline#readme"
+}
