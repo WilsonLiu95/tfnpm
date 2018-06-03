@@ -1,14 +1,14 @@
 {
-  "name": "ilogline",
+  "name": "TFLog",
   "version": "1.0.0",
-  "description": "前端日志",
-  "main": "index.js",
+  "description": "Tencent Finacial Log",
+  "main": "TFLog.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WilsonLiu95/iLogline.git"
+    "url": "git+https://github.com/WilsonLiu95/TFLog.git"
   },
   "keywords": [
     "indexeddb",
@@ -18,7 +18,7 @@
   "author": "wilsonliuxyz@gmail.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/WilsonLiu95/iLogline/issues"
+    "url": "https://github.com/WilsonLiu95/TFLog/issues"
   },
-  "homepage": "https://github.com/WilsonLiu95/iLogline#readme"
+  "homepage": "https://github.com/WilsonLiu95/TFLog#readme"
 }
