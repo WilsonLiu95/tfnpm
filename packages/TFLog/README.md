@@ -1,7 +1,7 @@
 # 打造高可靠的前端日志模块 TFLOG
 ## TFLog
-> Tencent Finacial Log:来自于理财通业务中的基础模块，运行在上亿的客户端中
-
+> Tencent Finacial Log:来自于理财通业务中的基础模块，运行在上亿用户的客户端中
+------
 ## 背景
 前端不同于后端服务的一点是运行在用户的设备中，环境不可控，用户操作难以追溯。
 碰到用户来反馈问题，往往很难以复现用户的事故现场以及操作历史。
@@ -10,6 +10,7 @@
 
 前端日志，则是此时最好的解决方案，分布式存储在客户的设备中，按需上报，让最了解业务场景的开发(前端er)输出最详细的日志。
 
+------
 ## 特性
 TFLog具有以下特性,并经过理财通线上微信与手Q客户端的每日千万级PV检验，可用于生产环境。
 1. 零依赖
@@ -18,15 +19,17 @@ TFLog具有以下特性,并经过理财通线上微信与手Q客户端的每日�
 4. 高覆盖率 99.7%
 5. 高可靠 99.79%
 6. 有损降级
-
+------
 ## 使用
-1. 安装
+### 1.安装
+
+```shell
+npm install tflog
 ```
-npm install TFLog
-```
-2. 打日志
-```
-var TFLog = require('TFLog');
+### 2.打日志
+
+```javascript
+var TFLog = require('tflog');
 // 'mod/ajax'为namespace
 var ajaxLog = new TFLog('mod/ajax');
 // 三类日志级别
@@ -34,16 +37,18 @@ ajaxLog.log(url,{date:'2018-05-30'});
 ajaxLog.error('abort ajax');
 ajaxLog.warn('depreciate');
 ```
-3. 读取日志
-```
+### 3. 读取日志
+
+```javascript
 // collect logs from 3 days before, and earlier than 1 days ago
 TFLog.get('3', '1', function(logs) {});
 ```
-4. 删除日志
-```
+### 4. 删除日志
+```javascript
 TFLog.keep(7); // 保留最近7天的日志，如果不传参数，则清空日志
 TFLog.clean(); // 清空日志并删除数据库
 ```
+------
 ## 技术选型
 对于前端日志服务，我们认为有如下4个要素，必须满足
 
@@ -90,6 +95,7 @@ websql则是一个不错的前端存储，但websql已经被W3C标准抛弃了�
 因此，在设备不支持时，应该降级为只利用`console`输出而不持久化保存。
 而在因为`indexedDB`不可靠而导致丢出异常时，在以本次PV过程中有损降级，拒绝掉之后调用`indexedDB`的请求，以避免频繁报错。
 
+------
 ## 打磨优化
 ### 并行改串行
 `indexeddb`为异步的协议，一开始的过程中，我们采用并行的方式记录日志。
@@ -109,7 +115,7 @@ websql则是一个不错的前端存储，但websql已经被W3C标准抛弃了�
 
 而满容有2种情况，一类是打开`indexedDb`服务，即报满容的错误，第二类是事务过程中，碰到满容。以下为监测满容并进行处理的代码。
 
-```
+```javascript
     // 监听onerror
     var request = window.indexedDB.open(varStorage.database,1);
     request.onerror = function (event) {
@@ -168,7 +174,7 @@ websql则是一个不错的前端存储，但websql已经被W3C标准抛弃了�
 理财通的跨域方案采用iframe加载中间页，中间页通过`postMessage`传输所需要的信息，而`indexeddb`在iframe中使用会异常，此处之前忘记处理导致丢出异常，整个脚本停止运行，造成无法跨域传输信息。
 
 查阅资料后，在是否支持`indexeddb`中加入如下判断，如果在`iframe`中则表示不支持`indexeddb`
-```
+```javascript
     if (self != top){ // indexedb 不支持 iframe
         return false;
     }
@@ -178,14 +184,14 @@ IOS: `InvalidStateError: DOM IDBDatabase Exception 11: An operation was called o
 Android: `Uncaught InvalidStateError: Failed to read the 'error' property from 'IDBRequest': The request has not finished.`
 
 indexeddb操作结束后，不可在读取error属性
-```
+```javascript
     request.onblocked = function (event) {
         // "Error: Failed to read the 'error' property from 'IDBRequest': The request has not finished.
         // 这里无法读取 event.target.error属性，因为请求已经结束。因此会报错
         return throwError('indexeddb_init_blocked');
     }
 ```
-
+------
 ## 异常分析
 
 ### window pc 微信webview
@@ -217,7 +223,7 @@ IOS系统版本9.3及以下报错集中，且报错信息为`UnknownError`，无
 - PC打开微信webview的场景很少，此部分异常对于我们来说可以忽略。
 - IOS系统报的异常集中于低版本系统，随着系统版本不断的更新换代，这部分异常也会逐渐消失。
 - Android系统的异常分布则更为分散，暂未观察到无机型or系统版本的集中表现
-
+------
 ## 参考资料
 1. [indexeddb.js](http://olingo.apache.org/doc/javascript/apidoc/indexeddb.js.html#line282)
 2. [w3c Indexed Database API 2.0](https://www.w3.org/TR/IndexedDB/#introduction)

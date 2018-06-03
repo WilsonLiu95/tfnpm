@@ -1,6 +1,6 @@
 {
-  "name": "TFLog",
-  "version": "1.0.0",
+  "name": "tflog",
+  "version": "1.0.1",
   "description": "Tencent Finacial Log",
   "main": "TFLog.js",
   "scripts": {
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/WilsonLiu95/TFLog/issues"
   },
-  "homepage": "https://github.com/WilsonLiu95/TFLog#readme"
+  "homepage": "https://github.com/WilsonLiu95/TFLog#readme",
+  "dependencies": {
+    "logline": "^1.1.1"
+  }
 }
