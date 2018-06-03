@@ -111,7 +111,7 @@
             request = window.indexedDB.open(varStorage.database, 1);
             request.onerror = function (event) {
                 throwError('protocol indexeddb is prevented.', event.target.error);
-                if (event.target.error && event.target.error.name == 'QuotaExceededError') {
+                if (event.target.error && event.target.error.name === 'QuotaExceededError') {
                     // 存储满了，则全部清除 每日100+用户  Encountered full disk while opening backing store for indexedDB.open.
                     clean();
                 }
@@ -281,7 +281,7 @@
                 event.stopPropagation();
 
                 !isErrorToAbort && throwError('indexeddb_record_transaction_onabort', event.target.error);
-                if (event.target.error && event.target.error.name == 'QuotaExceededError') {
+                if (event.target.error && event.target.error.name === 'QuotaExceededError') {
                     // 存储满了，则全部清除 每日3K条
                     // Encountered disk full while committing transaction.
                     // An attempt was made to add something to storage that exceeded the quota
@@ -324,7 +324,7 @@
     function get(from, to, readyFn) {
         var transaction, store;
         try {
-            if (varStorage.status == STATUS_MAP.FAILED) {
+            if (varStorage.status === STATUS_MAP.FAILED) {
                 varStorage.pool = [];
                 return false;
             }
