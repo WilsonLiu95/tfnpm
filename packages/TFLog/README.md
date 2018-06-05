@@ -1,6 +1,4 @@
 # 打造高可靠的前端日志模块 TFLOG
-## TFLog
-> Tencent Finacial Log:来自于理财通业务中的基础模块，运行在上亿用户的客户端中
 ------
 ## 背景
 前端不同于后端服务的一点是运行在用户的设备中，环境不可控，用户操作难以追溯。
@@ -59,15 +57,15 @@ TFLog.clean(); // 清空日志并删除数据库
 
 出于以上考虑，以及参考一些开源的日志模块实现，我们锁定了 `indexedDB` 存储。
 
-注：以下数据皆来自于用户访问理财通微信客户端与手Q客户端，及在PC打开微信的webview。
+注：以下数据皆来自于用户访问微信客户端与手Q客户端，及在PC打开微信的webview。
 ### 覆盖率
-按照理财通2018-04-27(周五)的用户访问数据，支持率采用UV计算。
+按照2018-04-27(周五)的用户访问数据，支持率采用UV计算。
 计算可达到支持率达到99.7%。支持率逼近3个9,基本实现用户全覆盖。
 
 ### 可靠性
 通过统计`TFLog`中`try catch`与`indexeddb`三个异常异步回调接口`onerror onabort onblocked`所上报的异常日志数量来衡量本模块的可靠性
 
-以下数据采集自2018-05-30(周三)理财通的使用
+以下数据采集自2018-05-30(周三)
 
 可靠度(注释： 分母为支持indexeddb的用户，因此乘上0.997)
 
@@ -125,7 +123,7 @@ websql则是一个不错的前端存储，但websql已经被W3C标准抛弃了�
             clean();
         }
     };
-    // 监听事务的 onabort事件，此处 
+    // 监听事务的 onabort事件，此处
     var transaction = varStorage.db.transaction(['logs'], IDBTransaction.READ_WRITE || 'readwrite');
     transaction.onabort = function (event) {
         // 当事务是因为abort被取消时，transaction.onerror也会收到冒泡，此处屏蔽单独在onabort中进行处理

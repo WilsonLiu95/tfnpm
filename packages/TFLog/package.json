@@ -1,6 +1,6 @@
 {
   "name": "tflog",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Tencent Finacial Log",
   "main": "src/TFLog.js",
   "scripts": {
