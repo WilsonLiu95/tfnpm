@@ -211,6 +211,7 @@ IOS系统版本9.3及以下报错集中，且报错信息为`UnknownError`，无
 | unable to locate logs earlier than 7d.:UnknownError|    14 |       14 |
 ### 异常分析小结
 异常操作系统分布统计如下
+
 | count(1) | os_type |
 | ------------ | ------------ |
 |    19704 | android |
