@@ -4,9 +4,15 @@
  **/
 
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-        typeof define === 'function' && define.amd ? define(factory) :
-            (global.TFLog = factory());
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        module.exports = factory();
+    } else {
+        if (typeof define === 'function' && define.amd) {
+            define(factory);
+        } else {
+            global.TFLog = factory();
+        }
+    }
 })(this, (function () {
     var STATUS_MAP = {
         'INITING': 1,
@@ -76,7 +82,7 @@
         var support;
         try {
             // indexedb 不支持 iframe
-            if (self != top) {
+            if (self !== top) {
                 return false;
             }
 
@@ -106,7 +112,7 @@
     function initIndexedDB() {
         var request;
         try {
-            if (!varStorage.isSupportIndexedDB || (varStorage.status !== STATUS_MAP.INITING)) {return false;}
+            if (!varStorage.isSupportIndexedDB || (varStorage.status !== STATUS_MAP.INITING)) { return false; }
 
             request = window.indexedDB.open(varStorage.database, 1);
             request.onerror = function (event) {
@@ -147,7 +153,7 @@
                 var store;
                 try {
                     varStorage.db = event.target.result;
-                    if (!varStorage.db) {return throwError('onupgradeneeded_is_null');}
+                    if (!varStorage.db) { return throwError('onupgradeneeded_is_null'); }
                     if (!varStorage.db.objectStoreNames.contains('logs')) {
                         store = varStorage.db.createObjectStore('logs', { autoIncrement: true });
                         store.createIndex('namespace', 'namespace', { unique: false });
@@ -189,7 +195,7 @@
     // 输出日志
     function showLog(namespace, level, descriptor, data) {
         record(namespace, level, descriptor, data);
-        if (namespace === 'console') {return;}
+        if (namespace === 'console') { return; }
         if (data && typeof data === 'object' && data.length !== 0) {
             console['__' + level] && console['__' + level](namespace, descriptor, data);
         } else {
@@ -218,7 +224,7 @@
             varStorage.recordLock = true;
 
             transaction = getTransaction();
-            if (!transaction) {return throwError('getTransaction is null');}
+            if (!transaction) { return throwError('getTransaction is null'); }
             store = transaction.objectStore('logs');
             // should not contains any function in data
             // otherwise 'DOMException: Failed to execute 'add' on 'IDBObjectStore': An object could not be cloned.' will be thrown
@@ -345,7 +351,7 @@
             to = transTimeFormat(to);
 
             transaction = getTransaction();
-            if (!transaction) {return throwError('getTransaction is null');}
+            if (!transaction) { return throwError('getTransaction is null'); }
             store = transaction.objectStore('logs');
 
             // IDBObjectStore.getAll is a non-standard API
@@ -406,7 +412,7 @@
                 });
             }
             transaction = getTransaction();
-            if (!transaction) {return throwError('getTransaction is null');}
+            if (!transaction) { return throwError('getTransaction is null'); }
             store = transaction.objectStore('logs');
 
             if (!daysToMaintain) {
