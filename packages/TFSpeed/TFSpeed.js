@@ -6,26 +6,34 @@
  * http://www.alloyteam.com/2015/09/explore-performance/
 */
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-        typeof define === 'function' && define.amd ? define(factory) :
-            (global.iSpeed = factory());
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        module.exports = factory();
+    } else {
+        if (typeof define === 'function' && define.amd) {
+            define(factory);
+        } else {
+            global.TFSpeed = factory();
+        }
+    }
 })(this, (function () {
-
-    'use strict';
     /*
         emit event: init,throwError,beforeReport,afterReport,markPageLife,extendPageLife
     */
     var utils = {
         extend: function (target, obj) {
-            for (var i in obj) {
-                target[i] = obj[i];
+            var key;
+            for (key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    target[key] = obj[key];
+                }
+
             }
         }
     };
 
     function Speed(config) {
         this._events = {};
-        if (!config || !config.pageStartTime) return this._throwError('new Speed error need pageStartTime');
+        if (!config || !config.pageStartTime) { return this._throwError('new Speed error need pageStartTime'); }
 
         this.performance = window.performance || window.mozPerformance || window.msPerformance || window.webkitPerformance;
         this.startTimeMap = {};
@@ -55,14 +63,14 @@
 
         if (!this.naviStartTime) { // 未传入浏览器开始时间
             this.naviStartTime = this.pageStartTime; // 默认值为meta头部时间
-            if (this.perf_type > 1) { // 支持performance
+            if (this.perfType > 1) { // 支持performance
                 this.naviStartTime = this.performance.timing.navigationStart;
             }
         }
         this.init && this.init();
     }
 
-    // please not use function just like start with '__' like _init 
+    // please not use function just like start with '__' like _init
     Speed.prototype = {
         version: '1.0.0',
         _throwError: function (errorMsg, e) {
@@ -79,13 +87,14 @@
         },
 
         off: function (type, fn) {
+            var index;
             if (!this._events[type]) {
                 return;
             }
             if (!fn) {
                 delete this._events[type]; // delete all
             } else {
-                var index = this._events[type].indexOf(fn);
+                index = this._events[type].indexOf(fn);
 
                 if (index > -1) {
                     this._events[type].splice(index, 1);
@@ -111,17 +120,15 @@
         },
         _getSupportType: function () {
             // 1为不支持 2支持performance与performance.timing 3 额外支持getEntries
-            this.perf_type = 1;
+            this.perfType = 1;
             if (!!this.performance && !!this.performance.timing) {
-                this.perf_type = 2;
-                if (!!this.performance.getEntries) {
-                    this.perf_type = 3;
-                }
-            };
+                this.perfType = 2;
+                this.performance.getEntries && (this.perfType = 3);
+            }
         },
         startMark: function (key) {
             try {
-                if (!key) return this._throwError('startMark need key');
+                if (!key) { return this._throwError('startMark need key'); }
                 if (this.startTimeMap[key]) {
                     this._throwError('startMark has the same key ' + key);
                 }
@@ -130,13 +137,14 @@
 
         },
         endMark: function (key, data) {
+            if (!key) { return this._throwError('endMark need key'); }
+            var endTime = Date.now(); // 结束时间
+            var logObj = {
+                key: key
+            };
+            var entriesList, timing, startTime, i;
+            var url = data.url;
             try {
-                if (!key) return this._throwError('endMark need key');
-                var endTime = Date.now(); // 结束时间
-                var logObj = {
-                    key: key
-                };
-                var url = data.url;
                 delete data.url;
                 this.utils.extend(logObj, data);
 
@@ -146,7 +154,7 @@
                     }
                 } else {
                     // 开始时间不存在，则直接return。针对重复请求的情况
-                    if (!this.startTimeMap[key]) return this._throwError('endMark need startTime with ' + key);
+                    if (!this.startTimeMap[key]) { return this._throwError('endMark need startTime with ' + key); }
 
                     logObj.duration = endTime - this.startTimeMap[key];
                     logObj.startTime = this.startTimeMap[key] - this.naviStartTime; // 计算该事件相对于__naviStartTime开始渲染的时间差
@@ -161,17 +169,17 @@
                     this.pageLife.codeExec++;
                 }
                 // ajax请求的 如果支持getEntries，则采用getEntries的时间
-                if (url && this.perf_type == 3) {
-                    var entriesList = this.performance.getEntries();
-                    for (var i = 0; i < entriesList.length; i++) {
-                        var timing = entriesList[i];
-                        if (timing && timing.name && timing.name.indexOf(url) != -1) { // timing.name为全链接，url大部分时候为路径加部分参数
+                if (url && this.perfType === 3) {
+                    entriesList = this.performance.getEntries();
+                    for (i = 0; i < entriesList.length; i++) {
+                        timing = entriesList[i];
+                        if (timing && timing.name && timing.name.indexOf(url) !== -1) { // timing.name为全链接，url大部分时候为路径加部分参数
                             logObj.initiatorType = timing.initiatorType;
                             logObj.transferSize = timing.transferSize;
-                            logObj.encodedBodySize = timing.encodedBodySize,
-                                logObj.decodedBodySize = timing.decodedBodySize;
+                            logObj.encodedBodySize = timing.encodedBodySize;
+                            logObj.decodedBodySize = timing.decodedBodySize;
 
-                            var startTime = timing.startTime || timing.fetchStart;
+                            startTime = timing.startTime || timing.fetchStart;
                             logObj.startTime = startTime > 0 ? startTime.toFixed(0) : 0;
                             logObj.responseEnd = timing.responseEnd > 0 ? timing.responseEnd.toFixed(0) : 0;
                             logObj.duration = timing.duration > 0 ? timing.duration.toFixed(0) : 0;
@@ -186,26 +194,27 @@
         },
         // mark resource type perfomance
         markResource: function () {
+            var entriesList, i, key, timing, pathname, fileType, logObj, linkUrl, startTime;
             try {
-                if (this.performance && this.perf_type != 3) return this._throwError('markResourcePerf need support performance.getEntries')
+                if (this.performance && this.perfType !== 3) { return this._throwError('markResourcePerf need support performance.getEntries'); }
 
-                var entriesList = this.performance.getEntries();
-                this.resourceList = []; // set it null array when mark resource 
-                for (var i = 0; i < entriesList.length; i++) {
-                    var timing = entriesList[i];
-                    if (!timing) continue; // 对应为空
-                    var pathname = timing.name && timing.name.split('?') && timing.name.split('?')[0];
-                    var fileType = null;
+                entriesList = this.performance.getEntries();
+                this.resourceList = []; // set it null array when mark resource
+                for (i = 0; i < entriesList.length; i++) {
+                    timing = entriesList[i];
+                    if (!timing) { continue; } // 对应为空
+                    pathname = timing.name && timing.name.split('?') && timing.name.split('?')[0];
+                    fileType = null;
                     // 遍历资源正则表
-                    for (var key in this.resourceRegMap) {
+                    for (key in this.resourceRegMap) {
                         if (this.resourceRegMap[key].test(pathname)) {
                             fileType = key;
                         }
                     }
-                    if (!fileType) continue; // 没有匹配的资源类型
+                    if (!fileType) { continue; } // 没有匹配的资源类型
 
-                    var linkUrl = timing.name.split("?")[0]; // 去除search参数
-                    var logObj = {
+                    linkUrl = timing.name.split('?')[0]; // 去除search参数
+                    logObj = {
                         logType: 4, // 4为资源的加载
                         url: linkUrl,
                         initiatorType: timing.initiatorType, // 初始化的地方
@@ -214,7 +223,7 @@
                         encodedBodySize: timing.encodedBodySize, // 压缩后的体积,例如gzip压缩
                         decodedBodySize: timing.decodedBodySize // 解压后的体积
                     };
-                    var startTime = timing.startTime || timing.fetchStart;
+                    startTime = timing.startTime || timing.fetchStart;
                     logObj.startTime = startTime > 0 ? startTime.toFixed(0) : 0;
                     logObj.responseEnd = timing.responseEnd > 0 ? timing.responseEnd.toFixed(0) : 0;
                     logObj.duration = timing.duration > 0 ? timing.duration.toFixed(0) : 0;
@@ -239,24 +248,23 @@
             } catch (e) { this._throwError('markPageLife error', e); }
         },
         _getPageLifeTime: function () {
-            if (this.perf_type == 1) return false; // not support performance
-            var timing;
-            if (this.perf_type == 3) {
+            if (this.perfType === 1) { return false; } // not support performance
+            var timing, i, key, duration;
+            var whiteKey = ['domainLookupStart', 'domainLookupEnd', 'connectStart', 'connectEnd', 'requestStart', 'responseStart', 'responseEnd', 'domInteractive', 'domComplete', 'domContentLoadedEventEnd', 'loadEventEnd', 'duration'];
+            if (this.perfType === 3) {
                 timing = performance.getEntries()[0]; // 直接将数据上报
                 this.pageLife.type = timing.type;
                 this.pageLife.transferSize = timing.transferSize; // content-length
                 this.pageLife.encodedBodySize = timing.encodedBodySize; // 压缩后的体积,例如gzip压缩
                 this.pageLife.decodedBodySize = timing.decodedBodySize; // 解压后的体积
-            } else if (this.perf_type == 2) {
+            } else if (this.perfType === 2) {
                 timing = performance.timing;
             }
 
-            var whiteKey = ['domainLookupStart', 'domainLookupEnd', 'connectStart', 'connectEnd', 'requestStart', 'responseStart',
-                'responseEnd', 'domInteractive', 'domComplete', 'domContentLoadedEventEnd', 'loadEventEnd', 'duration'];
-            for (var i = 0; i < whiteKey.length; i++) {
-                var key = whiteKey[i];
-                var duration = timing[key];
-                if (this.perf_type == 2) {
+            for (i = 0; i < whiteKey.length; i++) {
+                key = whiteKey[i];
+                duration = timing[key];
+                if (this.perfType === 2) {
                     duration = timing[key] - this.naviStartTime;
                 }
                 this.pageLife[key] = duration > 0 ? duration.toFixed(0) : 0;
@@ -265,25 +273,24 @@
         // 添加属性到页面生命周期中去
         extendPageLife: function (attr) {
             try {
-                if (!attr) return this._throwError('extendPageLife attr is null');
+                if (!attr) {return this._throwError('extendPageLife attr is null')};
                 this.emit('extendPageLife', attr);
                 this.utils.extend(this.pageLife, attr);
-            } catch (e) { this._throwError('report throw error', e) }
+            } catch (e) { this._throwError('report throw error', e); }
         },
 
         // 上报页面测速数据
         report: function () {
+            var passLogList = [];
             try {
                 this.emit('beforeReport');
-                var passLogList = [];
 
                 this.isSendPageLife && passLogList.push(this.pageLife);
                 this.isSendOtherType && (passLogList = passLogList.concat(this.otherTypeList, this.resourceList));
                 this.emit('afterSample', passLogList);
                 return passLogList;
-            } catch (e) { this._throwError('report throw error', e) }
-        },
-
-    }
+            } catch (e) { this._throwError('report throw error', e); }
+        }
+    };
     return Speed;
 }));
