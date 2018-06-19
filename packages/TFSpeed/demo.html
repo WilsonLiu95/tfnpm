@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TFSpeed测速</title>
+    <script "text/javascript">
+        // 在head处放置一个测速点，记录页面开始执行时间
+        window.__pageStartTime = Date.now();
+    </script>
+</head>
+
+<body>
+    <script src="./TFSpeed.js"></script>
+    <script type="text/javascript">
+        // 初始化测速
+        var trackerItem = new TFSpeed({
+            pageStartTime: window.__pageStartTime, // 传入head处的开始时间
+            // naviStartTime: window.__pageStartTime,
+            init: function () {
+                console.log('初始化')
+            }
+        });
+
+        // 页面渲染完成后延时100ms进行数据上报
+        trackerItem.on('markPageLife', function () {
+            setTimeout(function () {
+                trackerItem.report();
+            }, 100);
+        });
+        // 在上报前完成资源的初始化
+        trackerItem.on('beforeReport', function () {
+            // 采集率1/50,也可以根据页面情况自定义上报采用
+            if(Math.random() * 50 > 1){
+                trackerItem.isSendPageLife = false;
+                trackerItem.isSendOtherType = false;
+            }
+            // 采集资源测速数据
+            trackerItem.markResource();
+        });
+
+        // 采样后进行上报
+        trackerItem.on('afterSample', function (loglist) {
+            console.log(loglist);
+            if(loglist && loglist.length > 0){
+                postLogToServer(loglist);
+            }
+        });
+        function postLogToServer(loglist){
+            console.log(loglist);
+        }
+    </script>
+</body>
+
+</html>
