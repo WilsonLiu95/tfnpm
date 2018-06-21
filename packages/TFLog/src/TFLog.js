@@ -74,7 +74,7 @@
         try {
             while (handler) {
                 handler();
-                pool.shift();
+                handler = pool.shift(); // 遍历调用
             }
         } catch (e) { }
     }

@@ -1,7 +1,7 @@
 {
   "name": "tflog",
-  "version": "1.0.3",
-  "description": "Tencent Finacial Log",
+  "version": "1.0.4",
+  "description": "tflog",
   "main": "src/TFLog.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

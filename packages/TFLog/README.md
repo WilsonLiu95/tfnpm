@@ -226,4 +226,4 @@ IOS系统版本9.3及以下报错集中，且报错信息为`UnknownError`，无
 ## 参考资料
 1. [indexeddb.js](http://olingo.apache.org/doc/javascript/apidoc/indexeddb.js.html#line282)
 2. [w3c Indexed Database API 2.0](https://www.w3.org/TR/IndexedDB/#introduction)
-3. [logline 微证券](https://github.com/latel/logline)
+3. [logline](https://github.com/latel/logline)
