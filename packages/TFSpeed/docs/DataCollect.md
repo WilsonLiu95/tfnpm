@@ -11,6 +11,7 @@
 |微信 | 支持 performance | 6.9% |
 |微信 | 支持 performance,getEntries| 92.08% |
 |微信 | 支持 performance,getEntries,clearResourceTimings | 0.32 |
+
 |手Q | 不支持 performance | 0.43%  |
 |手Q | 支持 performance | 22.57% |
 |手Q | 支持 performance,getEntries  | 75.19% |

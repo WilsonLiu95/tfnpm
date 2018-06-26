@@ -43,6 +43,7 @@
         this.otherTypeList = []; // cgi and codeExec
         this.resourceList = [];
 
+        this.clearResourceIndex = 0; // 当不支持 clearResourceTimings 时，自行标记删除
         // what resource you want to watch
         this.resourceRegMap = config.resourceRegMap || {
             img: /\.(png|jpg|jpeg|gif|svg)$/,
@@ -116,7 +117,7 @@
              * 2 支持performance与performance.timing
              * 3 额外支持getEntries
              * 4 支持clearResourceTimings
-            **/
+             **/
             this.perfType = 1;
             if (!!this.performance && !!this.performance.timing) {
                 this.perfType = 2;
@@ -181,6 +182,10 @@
                     entriesList = this.performance.getEntries();
                     for (i = 0; i < entriesList.length; i++) {
                         timing = entriesList[i];
+                        // 标记删除
+                        if (!timing || (timing && timing.hasDelete)) {
+                            continue;
+                        }
                         // timing.name为全链接，url大部分时候为路径加部分参数
                         if (timing && timing.name && timing.name.indexOf(url) !== -1) {
                             markItem.initiatorType = timing.initiatorType;
@@ -212,7 +217,7 @@
                 this.resourceList = []; // set it null array when mark resource
                 for (i = 0; i < entriesList.length; i++) {
                     timing = entriesList[i];
-                    if (!timing) {
+                    if (!timing || (timing && timing.hasDelete)) {
                         continue; // 对应为空
                     }
                     pathname = timing.name && timing.name.split('?') && timing.name.split('?')[0];
@@ -230,7 +235,7 @@
                     linkUrl = timing.name.split('?')[0]; // 去除search参数
                     markItem = {
                         logType: 4, // 4为资源的加载
-                        url: linkUrl,
+                        keyName: linkUrl,
                         initiatorType: timing.initiatorType, // 初始化的地方
                         type: fileType, // 文件类型
                         transferSize: timing.transferSize, // content-length
@@ -248,7 +253,21 @@
                 return this._throwError('markResource throw error', e);
             }
         },
+        clearResource: function () {
+            var i, perfList;
+            // 如果不支持 clearResourceTimings 接口 那么则直接标记该对象
+            try {
+                if (this.perfType === 3) {
+                    perfList = this.performance.getEntries();
+                    for (i = 0; i < perfList.length; i++) {
+                        perfList[i].hasDelete = true;
+                    }
+                } else if (this.perfType === 4) {
+                    this.performance.clearResourceTimings();
+                }
+            } catch (e) {}
 
+        },
         markPageLife: function (title) {
             try {
                 if (title) {

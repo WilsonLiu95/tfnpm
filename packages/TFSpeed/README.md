@@ -15,9 +15,9 @@
 
 - 渐进增强
     1. 不支持 performance
-    2. 仅支持 performance
-    3. 仅支持 performance,genEntries
-    4. 支持 performance,genEntries,clearFrameTimings
+    2. 仅支持 performance (采集网络及浏览器数据)
+    3. 仅支持 performance,genEntries (采集所有http请求数据)
+    4. 支持 performance,genEntries,clearResourceTimings  (单页面适用接口 clearResourceTimings ，删除之前页面相关资源加载记录)
 - 四类统计
     1. 页面生命周期测速 (pageLife)
     2. cgi测速 cgiSpeed
@@ -118,6 +118,31 @@ trackerItem.on('afterSample', function (loglist) {
 });
 ```
 
+### 6. 单页面跳转处理
+
+针对目前流行的单页面框架，如何接入该组件，下面给一个参考。
+
+```javascript
+    // 1. 先删除之前的资源加载记录，避免下一个页面继续统计了上一个页面的资源
+    trackerItem.clearResource();
+    // 2. 以路由开始跳转时间为开始时间
+    window.naviStartTime = Date.now();
+
+    // 2与3之间对应的应该是加载对应页面的JS文件，类似于直跳中下载html文件
+
+    // 3. 以对应页面模块加载完成事件为页面开始执行时间
+    window.__pageStartTime = Date.now();
+
+    // 4. 重新new一个测速实例，在新的实例上挂载事件监听与业务逻辑
+    var trackerItem2 = new TFSpeed({
+        pageStartTime: window.__pageStartTime, // 传入head处的开始时间
+        naviStartTime: window.naviStartTime,
+        init: function () {
+            console.log('初始化')
+        }
+});
+```
+
 ## 技术调研
 
 由于设备机型千差万别，接口支持程度无法统一；因此，建议先对用户机器对于测速接口的支持程度进行统计。
@@ -132,15 +157,17 @@ trackerItem.on('afterSample', function (loglist) {
 
 ### 接口支持统计
 
-以我们业务用户为例，用户分布在微信与手Q，每天数千万PV。
+以我们业务用户为例，用户分布在微信与手Q。
 通过采集用户上报的数据得到如下表格
+
+**按平台**
 
 |  平台 | 支持性 | 占比 |
 | ------------ | ------------|------------|
-|微信 | 不支持 performance | 0.7%  |
-|微信 | 支持 performance | 6.9% |
-|微信 | 支持 performance,getEntries| 0.32% |
-|微信 | 支持 performance,getEntries,clearResourceTimings | 92.08% |
+|微信 | 不支持 performance | 0.75%  |
+|微信 | 支持 performance | 6.79% |
+|微信 | 支持 performance,getEntries| 0.3% |
+|微信 | 支持 performance,getEntries,clearResourceTimings | 92.16% |
 |手Q | 不支持 performance | 0.43%  |
 |手Q | 支持 performance | 22.57% |
 |手Q | 支持 performance,getEntries  | 1.81% |
@@ -148,14 +175,35 @@ trackerItem.on('afterSample', function (loglist) {
 
 ![支持占比饼图](./docs/perfSupport.png)
 
+**以操作系统维度看**
+
+|  系统 | 支持性 | 占比 |
+| ------------ | ------------|------------|
+|Android | 不支持 performance | 0%  |
+|Android | 支持 performance | 0.01% |
+|Android | 支持 performance,getEntries| 0.37% |
+|Android | 支持 performance,getEntries,clearResourceTimings | 99.62% |
+|IOS | 不支持 performance | 2.8%  |
+|IOS | 支持 performance | 26.92% |
+|IOS | 支持 performance,getEntries  | 0.15% |
+|IOS | 支持 performance,getEntries,clearResourceTimings| 70.13% |
+
+在操作系统维度上，我们再对系统版本进行分析可得。
+
+IOS下不支持performance的系统版本分步在IOS8.3以下
+
 ### 如何看待接口支持性差异
 
 测速数据的收集与上报，是为了得到最全的用户整体性能数据。
 当一类用户占比过高时，直接将其剔除，往往会使得数据失准，因此需要先得到用户支持占比的情况。
 
+建议引入本组件后，先对用户占比进行统计。
+
 在我们的用户中 不支持performance 接口的用户占比极低。因此，我们会将其予以剔除
 
-因为我们用户并未采用单页面，而是直跳。因此 clearResourceTimings 接口的对我们的业务也是无效的。
+因为我们用户并未采用单页面，而是直跳。
+
+因此 `clearResourceTimings` 接口的对我们的业务也是无效的。
 
 ## 格式设计
 
@@ -181,6 +229,10 @@ trackerItem.on('afterSample', function (loglist) {
 2. 对于 ajax 来说，如果支持 `performance.getEntries` 则以接口数据为准，不支持则以 `startMark-endMark` 的时间差为准
 3. 自定义标记耗时 则是单纯通过调用 `startMark-endMark` 来标记
 4. 如果用户设备支持 `performance.getEntries` 则加以采集。
+
+通过以上格式，我们可以在管理端查看到用户整个页面打开过程中，距离webview打开多久后发起请求，请求耗时多久。例如下图。
+
+![页面渲染](./docs/pageLife.png)
 
 ## 相关参数说明
 
