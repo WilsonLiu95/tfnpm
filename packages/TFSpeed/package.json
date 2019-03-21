@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WilsonLiu95/TFSpeed.git"
+    "url": "git+https://github.com/WilsonLiu95/tfnpm.git"
   },
   "keywords": [
     "speed",
@@ -19,9 +19,6 @@
   ],
   "author": "wilsonliuxyz@gmail.com",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/WilsonLiu95/TFSpeed/issues"
-  },
-  "homepage": "https://github.com/WilsonLiu95/TFSpeed#readme",
+  "homepage": "https://github.com/WilsonLiu95/tfnpm/tree/master/packages/tfspeed#readme",
   "gitHead": "e0a1840ea687b88fc8a570c3712cf6a8e4aaeacd"
 }

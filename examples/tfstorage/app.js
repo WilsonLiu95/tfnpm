@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Tfstorage from '@tencent/tfstorage'
+import Tfstorage from 'tfstorage'
 window.Tfstorage = Tfstorage;
 try {
   window.tfcache = new Tfstorage('wx.cache.', {

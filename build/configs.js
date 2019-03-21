@@ -15,13 +15,12 @@ module.exports = function (repoPath) {
   const version = process.env.VERSION || packageJson.version
   const resolve = _path => path.resolve(repoPath, _path);
   const {
-    name,
+    name: moduelName,
     author,
     description
   } = packageJson
-  const moduelName = name.replace('@tencent/', '')
   const banner = `/*!
-    * ${name} v${version}
+    * ${moduelName} v${version}
     * (c) ${new Date().getFullYear()} ${author}
     * @description ${description}
     * @license MIT

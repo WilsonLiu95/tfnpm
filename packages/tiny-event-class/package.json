@@ -9,6 +9,10 @@
   "scripts": {
     "build": "node ../../build/build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:WilsonLiu95/tfnpm.git"
+  },
   "keywords": [
     "event",
     "module"
@@ -19,5 +23,6 @@
   },
   "author": "wilsonliuxyz@gmail.com",
   "license": "MIT",
+  "homepage": "https://github.com/WilsonLiu95/tfnpm/tree/master/packages/tiny-event-class#readme",
   "gitHead": "e0a1840ea687b88fc8a570c3712cf6a8e4aaeacd"
 }

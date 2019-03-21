@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const baseVersion = '1.0.0'
 
-const packagesDir = path.resolve(__dirname, '../packages/@tencent')
+const packagesDir = path.resolve(__dirname, '../packages/')
 const files = fs.readdirSync(packagesDir)
 
 files.forEach(pkg => {
@@ -15,7 +15,7 @@ files.forEach(pkg => {
   const pkgPath = path.join(packagesDir, pkg, `package.json`)
   if (!fs.existsSync(pkgPath)) {
     const json = {
-      'name': `@tencent/${pkg}`,
+      'name': `${pkg}`,
       'version': baseVersion,
       'description': desc,
       "license": "MIT",

@@ -27,7 +27,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 1.1.1 (2019-03-01)
 
-**Note:** Version bump only for package @tencent/tinyevent
+**Note:** Version bump only for package tinyevent
 
 
 

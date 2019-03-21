@@ -1,5 +1,5 @@
 /*!
-    * tflog v1.0.5
+    * tflog v1.0.6
     * (c) 2019 wilsonliuxyz@gmail.com
     * @description tflog
     * @license MIT

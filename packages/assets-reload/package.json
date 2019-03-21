@@ -11,7 +11,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "git@github.com:WilsonLiu95/assets-reload.git"
+    "url": "git@github.com:WilsonLiu95/tfnpm.git"
   },
   "files": [
     "src/*.js",
@@ -29,6 +29,6 @@
   "scripts": {
     "build": "node ../../build/build"
   },
-  "homepage": "https://github.com/WilsonLiu95/assets-reload#readme",
+  "homepage": "https://github.com/WilsonLiu95/tfnpm/tree/master/packages/assets-reload#readme",
   "gitHead": "e0a1840ea687b88fc8a570c3712cf6a8e4aaeacd"
 }

@@ -70,7 +70,7 @@ module.exports = {
 }
 
 function getPackageAlias() {
-  const pkgRootPath = path.join(__filename, '../../packages/@tencent/');
+  const pkgRootPath = path.join(__filename, '../../packages/');
 
   var pkgList = fs.readdirSync(pkgRootPath);
   var aliasMap = {

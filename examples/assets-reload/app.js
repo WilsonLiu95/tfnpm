@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import AssetsReload from '@tencent/assets-reload'
+import AssetsReload from 'assets-reload'
 window.AssetsReload = AssetsReload;
 var item = new AssetsReload(function(url){return url;})
 item.reloadBackgroundImage()

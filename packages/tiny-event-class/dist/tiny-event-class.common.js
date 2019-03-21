@@ -1,5 +1,5 @@
 /*!
-    * tiny-event-class v1.2.0
+    * tiny-event-class v1.3.0
     * (c) 2019 wilsonliuxyz@gmail.com
     * @description class tiny event
     * @license MIT

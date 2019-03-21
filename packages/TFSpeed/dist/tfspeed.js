@@ -1,5 +1,5 @@
 /*!
-    * tfspeed v1.0.2
+    * tfspeed v1.0.3
     * (c) 2019 wilsonliuxyz@gmail.com
     * @description front end speed
     * @license MIT
