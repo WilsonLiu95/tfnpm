@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.3.1 (2019-03-21)
+
+
+### Features
+
+* monorepo归集管理 ([ea13df8](https://github.com/WilsonLiu95/tfnpm/commit/ea13df8))
+
+
+
+
+
 # 1.3.0 (2019-03-21)
 
 

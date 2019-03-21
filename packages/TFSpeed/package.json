@@ -1,6 +1,6 @@
 {
   "name": "tfspeed",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "front end speed",
   "main": "dist/tflog.common.js",
   "module": "dist/tflog.esm.js",
@@ -20,5 +20,5 @@
   "author": "wilsonliuxyz@gmail.com",
   "license": "MIT",
   "homepage": "https://github.com/WilsonLiu95/tfnpm/tree/master/packages/tfspeed#readme",
-  "gitHead": "e0a1840ea687b88fc8a570c3712cf6a8e4aaeacd"
+  "gitHead": "7f581af536f4d5c81306d94af1ae3ab5d2ce6064"
 }
