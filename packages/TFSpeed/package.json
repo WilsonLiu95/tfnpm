@@ -1,6 +1,6 @@
 {
   "name": "tfspeed",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "front end speed",
   "main": "src/index.js",
   "scripts": {
@@ -19,5 +19,6 @@
   "bugs": {
     "url": "https://github.com/WilsonLiu95/TFSpeed/issues"
   },
-  "homepage": "https://github.com/WilsonLiu95/TFSpeed#readme"
+  "homepage": "https://github.com/WilsonLiu95/TFSpeed#readme",
+  "gitHead": "e0a1840ea687b88fc8a570c3712cf6a8e4aaeacd"
 }

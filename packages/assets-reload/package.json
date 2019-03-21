@@ -1,6 +1,6 @@
 {
   "name": "assets-reload",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "switch all assets cdn name (script,link,background-image,img). when you open one website in a test domain you can switch cdn name to location.hostname",
   "author": "wilsonliuxyz@gmail.com",
   "license": "MIT",
@@ -29,5 +29,6 @@
   "scripts": {
     "build": "node ../../../build/build"
   },
-  "homepage": "https://github.com/WilsonLiu95/assets-reload#readme"
+  "homepage": "https://github.com/WilsonLiu95/assets-reload#readme",
+  "gitHead": "e0a1840ea687b88fc8a570c3712cf6a8e4aaeacd"
 }

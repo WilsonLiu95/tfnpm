@@ -1,6 +1,6 @@
 {
   "name": "tflog",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "tflog",
   "main": "src/TFLog.js",
   "scripts": {
@@ -17,5 +17,6 @@
   ],
   "author": "wilsonliuxyz@gmail.com",
   "license": "MIT",
-  "homepage": "https://github.com/WilsonLiu95/TFLog#readme"
+  "homepage": "https://github.com/WilsonLiu95/TFLog#readme",
+  "gitHead": "e0a1840ea687b88fc8a570c3712cf6a8e4aaeacd"
 }
