@@ -1,6 +1,6 @@
 {
   "name": "tflog",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "tflog",
   "main": "dist/tflog.common.js",
   "module": "dist/tflog.esm.js",

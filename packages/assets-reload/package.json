@@ -1,6 +1,6 @@
 {
   "name": "assets-reload",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "switch all assets cdn name (script,link,background-image,img). when you open one website in a test domain you can switch cdn name to location.hostname",
   "author": "wilsonliuxyz@gmail.com",
   "license": "MIT",
