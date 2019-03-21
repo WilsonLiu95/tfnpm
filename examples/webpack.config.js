@@ -29,8 +29,7 @@ module.exports = {
   },
 
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.js$/,
         exclude: /node_modules/,
         use: 'babel-loader'
@@ -50,10 +49,7 @@ module.exports = {
   },
 
   resolve: {
-    alias: {
-      vue: 'vue/dist/vue.esm.js',
-      'tfstorage': path.join(__dirname, '..', 'src')
-    }
+    alias: getPackageAlias()
   },
 
   optimization: {
@@ -71,4 +67,19 @@ module.exports = {
   plugins: [
     new VuePlugin()
   ]
+}
+
+function getPackageAlias() {
+  const pkgRootPath = path.join(__filename, '../../packages/@tencent/');
+
+  var pkgList = fs.readdirSync(pkgRootPath);
+  var aliasMap = {
+    vue: 'vue/dist/vue.esm.js',
+  };
+  pkgList.forEach(pkgName => {
+    const pkgPath = path.join(pkgRootPath, pkgName);
+    const pkgJson = require(path.join(pkgPath, 'package.json'));
+    aliasMap[pkgJson.name] = path.join(pkgPath, 'src/index.js')
+  });
+  return aliasMap;
 }

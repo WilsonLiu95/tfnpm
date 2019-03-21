@@ -1,0 +1,22 @@
+{
+  "name": "tiny-event-class",
+  "version": "1.1.1",
+  "description": "class tiny event",
+  "main": "dist/tinyevent.common.js",
+  "module": "dist/tinyevent.esm.js",
+  "unpkg": "dist/tinyevent.js",
+  "jsdelivr": "dist/tinyevent.js",
+  "scripts": {
+    "build": "node ../../../build/build"
+  },
+  "keywords": [
+    "event",
+    "module"
+  ],
+  "devDependencies": {
+    "@tap-format/spec": "0.2.0",
+    "testling": "1.7.1"
+  },
+  "author": "wilsonliuxyz@gmail.com",
+  "license": "MIT"
+}

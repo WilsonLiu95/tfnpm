@@ -5,11 +5,9 @@ const uglify = require('uglify-js')
 const rollup = require('rollup')
 const configs = require('./configs')
 
-if (!fs.existsSync('dist')) {
-  fs.mkdirSync('dist')
-}
 
-build(configs)
+const repoPath = process.cwd();
+build(configs(repoPath))
 
 function build (builds) {
   let built = 0

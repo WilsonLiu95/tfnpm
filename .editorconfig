@@ -4,8 +4,8 @@ root = true
 
 # 匹配所有文件
 [*]
-# 使用Unix风格的换行控制
-end_of_line = lf
+# 使用windows风格的换行控制
+end_of_line = LF
 # 在每个文件结尾添加Unix风格的空行
 insert_final_newline = true
 # 去除行尾多余的空格
@@ -14,8 +14,8 @@ trim_trailing_whitespace = true
 charset = utf-8
 # 缩进风格为空格
 indent_style = space
-# 缩进4个空格
-indent_size = 4
+# 缩进2个空格
+indent_size = 2
 
 # 匹配JSON文件
 [*.json]

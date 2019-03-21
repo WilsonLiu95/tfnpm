@@ -16,9 +16,6 @@
     "front_end"
   ],
   "author": "wilsonliuxyz@gmail.com",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/WilsonLiu95/TFLog/issues"
-  },
+  "license": "MIT",
   "homepage": "https://github.com/WilsonLiu95/TFLog#readme"
 }
