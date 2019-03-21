@@ -2,9 +2,12 @@
   "name": "tfspeed",
   "version": "1.0.2",
   "description": "front end speed",
-  "main": "src/index.js",
+  "main": "dist/tflog.common.js",
+  "module": "dist/tflog.esm.js",
+  "unpkg": "dist/tflog.js",
+  "jsdelivr": "dist/tflog.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node ../../build/build"
   },
   "repository": {
     "type": "git",

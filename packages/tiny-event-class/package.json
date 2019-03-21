@@ -2,12 +2,12 @@
   "name": "tiny-event-class",
   "version": "1.2.0",
   "description": "class tiny event",
-  "main": "dist/tinyevent.common.js",
-  "module": "dist/tinyevent.esm.js",
-  "unpkg": "dist/tinyevent.js",
-  "jsdelivr": "dist/tinyevent.js",
+  "main": "dist/tiny-event-class.common.js",
+  "module": "dist/tiny-event-class.esm.js",
+  "unpkg": "dist/tiny-event-class.js",
+  "jsdelivr": "dist/tiny-event-class.js",
   "scripts": {
-    "build": "node ../../../build/build"
+    "build": "node ../../build/build"
   },
   "keywords": [
     "event",

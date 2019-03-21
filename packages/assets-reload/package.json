@@ -27,7 +27,7 @@
     "domain"
   ],
   "scripts": {
-    "build": "node ../../../build/build"
+    "build": "node ../../build/build"
   },
   "homepage": "https://github.com/WilsonLiu95/assets-reload#readme",
   "gitHead": "e0a1840ea687b88fc8a570c3712cf6a8e4aaeacd"

@@ -2,9 +2,12 @@
   "name": "tflog",
   "version": "1.0.5",
   "description": "tflog",
-  "main": "src/TFLog.js",
+  "main": "dist/tflog.common.js",
+  "module": "dist/tflog.esm.js",
+  "unpkg": "dist/tflog.js",
+  "jsdelivr": "dist/tflog.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node ../../build/build"
   },
   "repository": {
     "type": "git",
